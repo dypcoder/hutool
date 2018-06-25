@@ -19,7 +19,7 @@ public class HttpUtilTest {
 	@Test
 	@Ignore
 	public void postTest() {
-		String result = HttpUtil.createPost("http://api.uhaozu.com/goods/description/1120448506").charset(CharsetUtil.GBK).execute().body();
+		String result = HttpUtil.createPost("http://api.uhaozu.com/goods/description/1120448506").charset(CharsetUtil.UTF_8).execute().body();
 		Console.log(result);
 	}
 
@@ -186,5 +186,12 @@ public class HttpUtilTest {
 		Assert.assertEquals("bbb", map.get("a").get(0));
 		Assert.assertEquals("你好", map.get("c").get(0));
 		Assert.assertEquals("", map.get("哈喽").get(0));
+	}
+	
+	@Test
+	@Ignore
+	public void patchTest() {
+		String body = HttpRequest.post("https://www.baidu.com").execute().body();
+		Console.log(body);
 	}
 }

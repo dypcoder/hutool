@@ -20,9 +20,6 @@ import cn.hutool.crypto.asymmetric.RSA;
  */
 public class RSATest {
 
-	public void genRSAPublicKeySpecTest() {
-	}
-
 	@Test
 	public void generateKeyPairTest() {
 		KeyPair pair = SecureUtil.generateKeyPair("RSA");
@@ -71,18 +68,41 @@ public class RSATest {
 	}
 
 	@Test
-	public void rsaStrTest() {
+	public void rsaBcdTest() {
+		String text = "我是一段测试aaaa";
+		
 		final RSA rsa = new RSA();
 
 		// 公钥加密，私钥解密
-		String encryptStr = rsa.encryptStr("我是一段测试aaaa", KeyType.PublicKey);
-		String decryptStr = rsa.decryptStr(encryptStr, KeyType.PrivateKey);
-		Assert.assertEquals("我是一段测试aaaa", decryptStr);
+		String encryptStr = rsa.encryptBcd(text, KeyType.PublicKey);
+		String decryptStr = StrUtil.utf8Str(rsa.decryptFromBcd(encryptStr, KeyType.PrivateKey));
+		Assert.assertEquals(text, decryptStr);
 
 		// 私钥加密，公钥解密
-		String encrypt2 = rsa.encryptStr("我是一段测试aaaa", KeyType.PrivateKey);
-		String decrypt2 = rsa.decryptStr(encrypt2, KeyType.PublicKey);
-		Assert.assertEquals("我是一段测试aaaa", decrypt2);
+		String encrypt2 = rsa.encryptBcd(text, KeyType.PrivateKey);
+		String decrypt2 = StrUtil.utf8Str(rsa.decryptFromBcd(encrypt2, KeyType.PublicKey));
+		Assert.assertEquals(text, decrypt2);
+	}
+	
+	@Test
+	public void rsaBase64Test() {
+		String textBase = "我是一段特别长的测试";
+		String text = "";
+		for(int i = 0; i < 10; i++) {
+			text += textBase;
+		}
+		
+		final RSA rsa = new RSA();
+		
+		// 公钥加密，私钥解密
+		String encryptStr = rsa.encryptBase64(text, KeyType.PublicKey);
+		String decryptStr = StrUtil.utf8Str(rsa.decryptFromBase64(encryptStr, KeyType.PrivateKey));
+		Assert.assertEquals(text, decryptStr);
+		
+		// 私钥加密，公钥解密
+		String encrypt2 = rsa.encryptBase64(text, KeyType.PrivateKey);
+		String decrypt2 = StrUtil.utf8Str(rsa.decryptFromBase64(encrypt2, KeyType.PublicKey));
+		Assert.assertEquals(text, decrypt2);
 	}
 
 	@Test

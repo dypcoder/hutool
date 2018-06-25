@@ -1087,8 +1087,8 @@ public class FileUtil {
 		if (StrUtil.isEmpty(path)) {
 			return false;
 		}
-
-		if (StrUtil.C_SLASH == path.charAt(0) || path.matches("^[a-zA-Z]:/.*")) {
+		
+		if (StrUtil.C_SLASH == path.charAt(0) || path.matches("^[a-zA-Z]:[/\\\\].*")) {
 			// 给定的路径已经是绝对路径了
 			return true;
 		}
@@ -1589,7 +1589,7 @@ public class FileUtil {
 		}
 		return StrUtil.subPre(fileName, fileName.lastIndexOf(StrUtil.DOT));
 	}
-
+	
 	/**
 	 * 获取文件扩展名，扩展名不带“.”
 	 * 
@@ -2389,6 +2389,20 @@ public class FileUtil {
 	public static PrintWriter getPrintWriter(String path, String charset, boolean isAppend) throws IORuntimeException {
 		return new PrintWriter(getWriter(path, charset, isAppend));
 	}
+	
+	/**
+	 * 获得一个打印写入对象，可以有print
+	 * 
+	 * @param path 输出路径，绝对路径
+	 * @param charset 字符集
+	 * @param isAppend 是否追加
+	 * @return 打印对象
+	 * @throws IORuntimeException IO异常
+	 * @since 4.1.1
+	 */
+	public static PrintWriter getPrintWriter(String path, Charset charset, boolean isAppend) throws IORuntimeException {
+		return new PrintWriter(getWriter(path, charset, isAppend));
+	}
 
 	/**
 	 * 获得一个打印写入对象，可以有print
@@ -3036,5 +3050,18 @@ public class FileUtil {
 		} catch (FileNotFoundException e) {
 			throw new IORuntimeException(e);
 		}
+	}
+	
+	/**
+	 * 获取Web项目下的web root路径
+	 * @return web root路径
+	 * @since 4.0.13
+	 */
+	public static File getWebRoot() {
+		String classPath = ClassUtil.getClassPath();
+		if(StrUtil.isNotBlank(classPath)) {
+			return file(classPath).getParentFile().getParentFile();
+		}
+		return null;
 	}
 }

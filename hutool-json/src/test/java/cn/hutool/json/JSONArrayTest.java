@@ -3,15 +3,13 @@ package cn.hutool.json;
 import java.util.ArrayList;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import cn.hutool.json.test.bean.Exam;
 
 /**
@@ -51,6 +49,7 @@ public class JSONArrayTest {
 	}
 	
 	@Test
+	@Ignore
 	public void parseBeanListTest() {
 		KeyBean b1 = new KeyBean();
 		b1.setAkey("aValue1");
